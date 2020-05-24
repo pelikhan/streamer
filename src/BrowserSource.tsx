@@ -6,20 +6,18 @@ export interface BrowserSourceProps {
     title: string;
 }
 
-const style: CSSProperties = {
-    border: 0,
-    height: "100%",
-    left: 0,
-    position: "absolute",
-    top: 0,
-    width: "100%"
-}
-
 export class BrowserSource extends React.Component<BrowserSourceProps> {
     render() {
         const { url, title } = this.props;
         return <Source>
-            <iframe style={style} title={title} src={url} />
+            <iframe style={{
+                border: 0,
+                height: "100%",
+                left: "0.5rem",
+                position: "absolute",
+                top: "0.5rem",
+                width: "100%"
+            }} title={title} src={url} />
         </Source>
     }
 }

@@ -48,14 +48,22 @@ export class Source extends React.Component<SourceProps> {
                             x: 0,
                             y: 0,
                             width: 640,
-                            height: 480,
+                            height: 640 / (lockAspectRatio || 16 / 9),
                         }}
                         resizeGrid={[gridSize, gridSize]}
                         dragGrid={[gridSize, gridSize]}
                         lockAspectRatio={lockAspectRatio}
                         resizeHandleComponent={{ bottomRight: <ResizeHandle /> }}
                     >
-                        {children}
+                        <div style={{
+                            padding: "0.5rem",
+                            background: "grey",
+                            borderRadius: "0.5rem",
+                            width: "100%",
+                            height: "100%"
+                        }}>
+                            {children}
+                        </div>
                     </Rnd>
                 }
             }
