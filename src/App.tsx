@@ -5,6 +5,7 @@ import { VideoInputSource } from './VideoInputSource';
 
 export const AppContext = React.createContext({
   locked: true,
+  gridSize: 8
 });
 
 export interface AppProps {
@@ -27,7 +28,7 @@ class App extends React.Component<AppProps, AppState> {
 
   render() {
     const { editorUrl, editorTitle } = this.state;
-    return <AppContext.Provider value={{ locked: false }}>[
+    return <AppContext.Provider value={{ locked: false, gridSize: 8 }}>[
       <BrowserSource url={editorUrl} title={editorTitle} />,
       <VideoInputSource />
     ]

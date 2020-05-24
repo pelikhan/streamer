@@ -23,24 +23,25 @@ class ResizeHandle extends React.Component {
 }
 
 export interface SourceProps {
+    lockAspectRatio?: number;
 }
 
 export class Source extends React.Component<SourceProps> {
     render() {
-        const { children } = this.props;
+        const { children, lockAspectRatio } = this.props;
         return <AppContext.Consumer>
             {
-                ({ locked }) => {
+                ({ locked, gridSize }) => {
                     return <Rnd
                         disableDragging={locked}
                         enableResizing={{
-                            top: false, 
-                            right: false, 
-                            bottom: false, 
-                            left: false, 
+                            top: false,
+                            right: false,
+                            bottom: false,
+                            left: false,
                             topRight: false,
                             bottomRight: !locked,
-                            bottomLeft: false, 
+                            bottomLeft: false,
                             topLeft: false
                         }}
                         default={{
@@ -49,6 +50,9 @@ export class Source extends React.Component<SourceProps> {
                             width: 640,
                             height: 480,
                         }}
+                        resizeGrid={[gridSize, gridSize]}
+                        dragGrid={[gridSize, gridSize]}
+                        lockAspectRatio={lockAspectRatio}
                         resizeHandleComponent={{ bottomRight: <ResizeHandle /> }}
                     >
                         {children}

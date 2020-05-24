@@ -10,7 +10,7 @@ const videoConstraints = {
 
 export class VideoInputSource extends Source {
     render() {
-        return <Source>
+        return <Source lockAspectRatio={16/9}>
             <Webcam
                 audio={false}
                 style={{

@@ -19,7 +19,7 @@ export class BrowserSource extends React.Component<BrowserSourceProps> {
     render() {
         const { url, title } = this.props;
         return <Source>
-            <iframe style={style} title={title} src={url} sandbox="allow-scripts allow-popups" />
+            <iframe style={style} title={title} src={url} />
         </Source>
     }
 }
