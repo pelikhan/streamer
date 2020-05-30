@@ -1,20 +1,13 @@
-import React from 'react';
-import { BrowserSource } from './BrowserSource';
+import React from "react";
 
 export interface SceneProps {
-    editorUrl: string;
-    editorTitle: string;
+    className: string;
+    sources: JSX.Element | JSX.Element[]
 }
 
-export class Scene extends React.Component<SceneProps> {
-    constructor(props: SceneProps) {
-        super(props);
-    }
-
-    render() {
-        const { editorUrl, editorTitle } = this.props;
-        return <div>
-            <BrowserSource url={editorUrl} title={editorTitle} />
-        </div>
-    }
+export function Scene(props: SceneProps) {
+    const { className, sources } = props;
+    return <div className={`scene ${className}`}>
+        { sources }
+    </div>
 }

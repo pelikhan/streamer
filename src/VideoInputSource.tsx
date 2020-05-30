@@ -1,24 +1,14 @@
-import Webcam from "react-webcam";
-import { Source } from "./Source";
 import React from "react";
+import Source from "./Source";
 
-const videoConstraints = {
-    width: 1280,
-    height: 720,
-    facingMode: "user"
-};
+export interface VideoInputSource {
+    id: string;
+    deviceId: string;
+}
 
-export class VideoInputSource extends Source {
-    render() {
-        return <Source lockAspectRatio={16/9}>
-            <Webcam
-                audio={false}
-                style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "100%"
-                }}
-                videoConstraints={videoConstraints} />
-        </Source>
-    }
+export default function VideoInputSource(props: VideoInputSource) {
+    const { id } = props;
+    return <Source id={id}>
+        <video />
+    </Source>
 }
