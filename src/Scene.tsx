@@ -2,12 +2,12 @@ import React from "react";
 
 export interface SceneProps {
     className: string;
-    sources: JSX.Element | JSX.Element[]
+    children?: JSX.Element | JSX.Element[]
 }
 
-export function Scene(props: SceneProps) {
-    const { className, sources } = props;
+export default function Scene(props: SceneProps) {
+    const { className, children } = props;
     return <div className={`scene ${className}`}>
-        { sources }
+        { children }
     </div>
 }

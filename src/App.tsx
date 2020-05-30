@@ -1,62 +1,28 @@
 import React from 'react';
-import { BrowserSource } from './BrowserSource';
-import { VideoInputSource } from './VideoInputSource';
-import { Paper, Fab } from '@material-ui/core'
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import NavigationIcon from '@material-ui/icons/Navigation';
+import 'style.css'
+import Scene from './Scene';
+import BrowserSource from './BrowserSource';
+import VideoInputSource from './VideoInputSource';
 
 export const AppContext = React.createContext({
-  locked: true,
-  gridSize: 8
+  scene: "leftscene",
+  left: false,
+  chat: false,
+  hardware: false,
+  painttool: "arrow",
+  faceCamId: "",
+  hardwareCamId: ""
 });
 
-export interface AppProps {
-
+export default function App() {
+  return <AppContext.Consumer>
+    {({ scene, faceCamId, hardwareCamId }) =>
+      <Scene className={scene}>
+        <BrowserSource id="editor" />
+        <BrowserSource id="editor2" />
+        <BrowserSource id="chat" sandbox={true} />
+        <VideoInputSource id="facecam" deviceId={faceCamId} />
+        <VideoInputSource id="hardwarecam" deviceId={hardwareCamId} />
+      </Scene>}
+  </AppContext.Consumer>
 }
-
-export interface AppState {
-  editorUrl: string;
-  editorTitle: string;
-}
-
-const HigherOrderComponent = () => {
-  return <div>
-    <Fab color="primary" aria-label="add">
-      <AddIcon />
-    </Fab>
-    <Fab color="secondary" aria-label="edit">
-      <EditIcon />
-    </Fab>
-    <Fab variant="extended">
-      <NavigationIcon />
-    Navigate
-  </Fab>
-    <Fab disabled aria-label="like">
-      <FavoriteIcon />
-    </Fab>
-  </div>
-}
-
-class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props)
-    this.state = {
-      editorUrl: "https://makecode.microbit.org",
-      editorTitle: "micro:bit"
-    }
-  }
-
-  render() {
-    const { editorUrl, editorTitle } = this.state;
-    return <AppContext.Provider value={{ locked: false, gridSize: 8 }}>
-      <Paper />
-      <BrowserSource url={editorUrl} title={editorTitle} />
-      <VideoInputSource />
-      <HigherOrderComponent />
-    </AppContext.Provider>
-  }
-}
-
-export default App;

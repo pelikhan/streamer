@@ -3,7 +3,7 @@ import Source from "./Source";
 
 export interface VideoInputSource {
     id: string;
-    deviceId: string;
+    deviceId?: string;
 }
 
 export default function VideoInputSource(props: VideoInputSource) {
