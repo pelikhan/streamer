@@ -10,12 +10,11 @@ export interface BrowserSourceProps {
 
 export default function BrowserSource(props: BrowserSourceProps) {
     const { id, url, title, sandbox } = props;
-
-    const frame = <iframe title={title} src={url} />
+    let frame: JSX.Element;
     if (sandbox)
-        frame.props.sandbox = "allow-scripts allow-same-origin";
+        frame = <iframe title={title} src={url} sandbox={"allow-scripts allow-same-origin"} />;
     else
-        frame.props.allow = "usb;camera"
+        frame = <iframe title={title} src={url} allow={"usb;camera"} />
     return <Source id={id}>
         {frame}
     </Source>
