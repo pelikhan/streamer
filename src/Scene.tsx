@@ -7,7 +7,7 @@ export interface SceneProps {
 
 export default function Scene(props: SceneProps) {
     const { className, children } = props;
-    return <div className={`scene ${className}`}>
+    return <div className={`${className}scene`}>
         { children }
     </div>
 }

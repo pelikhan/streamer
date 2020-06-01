@@ -61,6 +61,13 @@ Your use of the content in the files referenced here is subject to the terms of 
       color: white;
       text-decoration: none;
   }
+  iframe {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    left: 0; top: 0;
+  }
   
   /* 
       Style for the boxes.
@@ -185,6 +192,14 @@ Your use of the content in the files referenced here is subject to the terms of 
       top: 1%;
       transition-delay: 0.2s;
   }
+
+  iframe {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    left: 0; top: 0;
+  }
   
   .multi #editor {
       width: 50%;
@@ -262,128 +277,128 @@ Your use of the content in the files referenced here is subject to the terms of 
   }
   
   /* rightscene: browser with facecam on right */
-  body.rightscene #editor {
+  .rightscene #editor {
       left: 1%;
   }
   
-  body.rightscene #facecam {
+  .rightscene #facecam {
       right: 1%;
       width: 28%;
   }
   
-  body.rightscene #chat {
+  .rightscene #chat {
       right: 1%;
       width: 28%;
       height: 54%;
   }
   
-  body.rightscene.chat #editor {
+  .rightscene.chat #editor {
       width: 67%;
       top: 1%;
       height: 87%;
   }
   
-  body.rightscene.hardware #hardwarecam {
+  .rightscene.hardware #hardwarecam {
       right: 1%;
       width: 22%;
       bottom: 42%;
   }
   
-  body.rightscene.multi #editor {
+  .rightscene.multi #editor {
       width: 67%;
   }
   
-  body.rightscene.multi #editor2 {
+  .rightscene.multi #editor2 {
       width: 28%;
       left: 70%;
       height: 54%;
   }
-  body.rightscene.multi.hardware #hardwarecam {
+  .rightscene.multi.hardware #hardwarecam {
       right: 1%;
       width: 22%;
       bottom: 24%;
   }
   
   /* leftscene: browser with facecam on left left */
-  body.leftscene #editor {
+  .leftscene #editor {
       left: 4%;
       height: 87%;
   }
   
-  body.leftscene #facecam {
+  .leftscene #facecam {
       right: 70%;
       width: 28%;
   }
   
-  body.leftscene #hardwarecam {
+  .leftscene #hardwarecam {
       bottom: 9%;
       right: 1%;
   }
   
-  body.leftscene #social {
+  .leftscene #social {
       width: 55%;
       height: 5%;
       left: 43%;
       bottom: 1.5%;
   }
-  body.leftscene.hardware #hardwarecam {
+  .leftscene.hardware #hardwarecam {
       width: 22%;
   }
   
   /* left+multi*/
-  body.leftscene.multi #editor {
+  .leftscene.multi #editor {
       left: 1%;
       width: 28%;
       height: 54%;
   }
   
-  body.leftscene.multi #editor2 {
+  .leftscene.multi #editor2 {
       width: 67%;
       left: 31%;
   }
   
-  body.leftscene.multi #facecam {
+  .leftscene.multi #facecam {
       right: 70%;
       width: 28%;
   }
-  body.leftscene.multi.hardware #hardwarecam {
+  .leftscene.multi.hardware #hardwarecam {
       right: 76%;
       width: 22%;
       bottom: 24%;
   }
   
   /** leftscene + chat **/
-  body.leftscene.chat #editor {
+  .leftscene.chat #editor {
       left: 31%;
       width: 67%;
   }
   
-  body.leftscene.chat #facecam {
+  .leftscene.chat #facecam {
       right: 70%;
       width: 28%;
   }
   
-  body.leftscene.chat #chat {
+  .leftscene.chat #chat {
       right: 70%;
       height: 54%;
       width: 28%;
   }
   
   /* chatscene: facecam and stream chat */
-  body.chatscene #facecam {
+  .chatscene #facecam {
       bottom: 19%;
       right: 38%;
       width: 52%;
   }
   
-  body.chatscene #editor {
+  .chatscene #editor {
       left: -150rem;
   }
-  body.chatscene #editor2 {
+  .chatscene #editor2 {
       right: -150rem;
   }
   
-  body.chatscene #chat {
+  .chatscene #chat {
       top: 9%;
       right: 4%;
       width: 24%;
@@ -391,17 +406,17 @@ Your use of the content in the files referenced here is subject to the terms of 
       opacity: 100%;
   }
   
-  body.chatscene #social {
+  .chatscene #social {
       left: 4%;
       bottom: 9%;
   }
   
-  body.chatscene.hardware #facecam {
+  .chatscene.hardware #facecam {
       bottom: 19%;
       right: 49%;
       width: 46%;
   }
-  body.chatscene.hardware #hardwarecam {
+  .chatscene.hardware #hardwarecam {
       width: 46%;
       bottom: 19%;
       right: 1%;            

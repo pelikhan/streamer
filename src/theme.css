@@ -1,0 +1,10 @@
+body {
+    background: rgb(99, 93, 198);
+    background: linear-gradient(45deg, rgba(99, 93, 198, 1) 0%, rgba(0, 212, 255, 1) 100%);
+}
+.source {
+    border-image: conic-gradient(red, yellow, lime, aqua, blue, magenta, red) 1;
+}
+#social {
+    background: #615fc7;
+}
