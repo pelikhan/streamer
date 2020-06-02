@@ -7,7 +7,7 @@ import {
   SetFlagAppAction,
   SetPaintToolAppAction,
 } from "./App";
-import { FontIcon, Button } from "@fluentui/react";
+import { FontIcon } from "@fluentui/react";
 
 export default function Toolbox(props: {
   state: AppState;

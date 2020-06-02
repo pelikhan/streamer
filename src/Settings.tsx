@@ -17,7 +17,6 @@ export default function Settings(props: {
   dispatch: Dispatch<AppAction>;
 }) {
   const { state, dispatch } = props;
-  const { settings } = state;
   return (
     <Source id="settings">
       <Button
