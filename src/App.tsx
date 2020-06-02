@@ -7,6 +7,7 @@ import VideoInputSource from './VideoInputSource';
 import Source from './Source';
 import Toolbox from './Toolbox';
 import Settings from './Settings';
+import { useFetch, useLocalStorage } from './Hooks';
 
 export interface AppState {
   scene: string;
@@ -15,6 +16,16 @@ export interface AppState {
   multi?: boolean;
   hardware?: boolean;
   settings?: boolean;
+}
+
+export interface AppConfig {
+  editor: string;
+  mixer?: string;
+  twitch?: string;
+}
+
+export interface EditorConfig {
+  url: string;
 }
 
 export enum AppActionType {
@@ -87,13 +98,26 @@ function reducer(state: AppState, action: AppAction) {
   return newState;
 }
 
+function useConfig(): [AppConfig, (cfg: AppConfig) => void] {
+  return useLocalStorage("streamer.config", {
+    editor: "microbit"
+  })
+}
+
 export default function App() {
+  const [editorsLoading, editors] = useFetch("https://makecode.com/editors.json")
   const [state, dispatch] = useReducer(reducer, initialState)
+  const [config] = useConfig()
+
+  if (editorsLoading)
+    return <div className="loading" />
+
+  const editorConfig: EditorConfig = editors[config.editor];
 
   return <Scene className={state.scene}>
-    <BrowserSource id="editor" />
+    <BrowserSource id="editor" url={editorConfig.url} />
     {state.multi && <BrowserSource id="editor2" />}
-    <BrowserSource id="chat" sandbox={true} />
+    {(config.mixer || config.twitch) && <BrowserSource id="chat" sandbox={true} />}
     <VideoInputSource id="facecam" deviceId={state.faceCamId} />
     {state.hardware && <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />}
     <Source id="social">

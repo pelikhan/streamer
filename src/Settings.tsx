@@ -16,6 +16,9 @@ export default function Settings(props: { state: AppState, dispatch: Dispatch<Ap
         <Field>
             <Checkbox label="Multi editors" checked={state.multi} action={AppActionType.SET_MULTI} />
         </Field>
+    </Source>
+
+/*
         <h2>Video</h2>
         <Field>
             <label for="facecamselect">Choose a Face Webcam</label>
@@ -54,8 +57,7 @@ export default function Settings(props: { state: AppState, dispatch: Dispatch<Ap
             <label for="twitchinput">Twitch (optional)</label>
             <input id="twitchinput" placeholder="Twitch.tv account (/account)" />
         </Field>
-    </Source>
-
+*/
 
     function Field(props: { children: ReactNode }) {
         return <div className="field">
