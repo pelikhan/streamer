@@ -1,13 +1,12 @@
 import React, { ReactNode } from "react";
+import { AppState } from "./App";
 
-export interface SceneProps {
-    className: string;
+export default function Scene(props: {
+    state: AppState;
     children?: ReactNode;
-}
-
-export default function Scene(props: SceneProps) {
-    const { className, children } = props;
-    return <div className={`${className}scene`}>
+}) {
+    const { state, children } = props;
+    return <div className={`${state.scene}scene ${state.hardware ? "hardware" : ""} ${state.chat ? "chat" : ""}`}>
         { children }
     </div>
 }

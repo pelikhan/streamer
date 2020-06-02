@@ -21,6 +21,7 @@ export interface AppState {
   multi?: boolean;
   hardware?: boolean;
   settings?: boolean;
+  chat?: boolean;
 }
 
 export interface EditorConfig {
@@ -38,7 +39,8 @@ export enum AppActionType {
   "SET_MIXER",
   "SET_TWITCH",
   "SET_EMOJIS",
-  "SET_EDITOR"
+  "SET_EDITOR",
+  "SET_CHAT"
 }
 
 export interface AppAction {
@@ -66,7 +68,9 @@ export interface SetCameraDeviceIdAppAction extends AppAction {
 }
 
 export interface SetFlagAppAction extends AppAction {
-  type: AppActionType.SET_MULTI | AppActionType.SET_HARDWARECAM | AppActionType.SET_SETTINGS | AppActionType.SET_EMOJIS;
+  type: AppActionType.SET_MULTI | AppActionType.SET_HARDWARECAM | AppActionType.SET_SETTINGS
+  | AppActionType.SET_EMOJIS
+  | AppActionType.SET_CHAT;
   on: boolean;
 }
 
@@ -103,7 +107,7 @@ export default function App() {
       findCamera(dispatch);
   })
 
-  return <Scene className={state.scene}>
+  return <Scene state={state}>
     <MakeCodeEditor id="editor" editor={config.editor} multi={state.multi} />
     {state.multi && <MakeCodeEditor id="editor2" editor={config.editor} multi={state.multi} />}
     <Chat mixer={config.mixer} twitch={config.twitch} />
@@ -139,6 +143,8 @@ export default function App() {
         newState.twitch = (action as SetTextAppAction).text; break;
       case AppActionType.SET_EMOJIS:
         newState.emojis = (action as SetTextAppAction).text; break;
+      case AppActionType.SET_CHAT:
+        newState.chat = (action as SetFlagAppAction).on; break;
     }
     setConfig(newState);
     return newState;
