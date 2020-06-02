@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Source from "./Source";
 
-export interface VideoInputSource {
-    id: string;
-    deviceId?: string;
+export async function listCameras() {
+    let cams = await navigator.mediaDevices.enumerateDevices()
+    cams = cams.filter(d => d.kind == "videoinput")
+    return cams;
 }
 
 function stopStream(el: HTMLVideoElement) {
