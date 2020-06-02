@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, useRef } from "react";
 import Source from "./Source";
+import { useAsync } from "react-async"
+import { AppAction, AppActionType, SetCameraDeviceIdAppAction } from "./App";
 
 export async function listCameras() {
     let cams = await navigator.mediaDevices.enumerateDevices()
@@ -37,6 +39,20 @@ async function startStream(el: HTMLVideoElement, deviceId?: string) {
     }
 }
 
+export function VideoInputSelect(props: { current?: string; action: AppActionType.SET_FACECAM_ID | AppActionType.SET_HARDWARECAM_ID, dispatch: Dispatch<AppAction>}) {
+    const { current, action, dispatch } = props;
+    const { data, isPending } = useAsync({ promiseFn: listCameras })
+    const selectRef = useRef<HTMLSelectElement>(null);
+    return <select ref={selectRef} className={isPending ? "loading" : ""} onChange={onChange}>
+        <option value="">Off</option>
+        {(data || []).map(cam => <option selected={!!current && current === cam.deviceId} value={cam.deviceId}>{cam.label || `camera ${cam.deviceId}`}</option>)}
+    </select>
+
+    function onChange() {
+        const selected = selectRef.current?.options[selectRef.current.selectedIndex];        
+        dispatch({ type: action, deviceId: selected?.value} as SetCameraDeviceIdAppAction)
+    }
+}
 
 export default function VideoInputSource(props: { id: string; deviceId?: string; rotate?: boolean; }) {
     const { id, deviceId, rotate } = props;

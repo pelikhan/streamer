@@ -227,7 +227,7 @@ Your use of the content in the files referenced here is subject to the terms of 
       right: -1rem;
       opacity: 0;
   }
-  body.hardware #hardwarecam {
+  .hardware #hardwarecam {
       opacity: 100%;
   }
   
@@ -271,7 +271,7 @@ Your use of the content in the files referenced here is subject to the terms of 
   /** 
   * chat visibility
   */
-  body.chat #chat {
+  .chat #chat {
       display: block;
       opacity: 90%;
   }

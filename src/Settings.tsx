@@ -2,6 +2,7 @@ import { AppState, AppAction, SetFlagAppAction, AppActionType } from "./App";
 import { Dispatch, ReactNode, Fragment } from "react";
 import React from "react";
 import Source from "./Source";
+import { VideoInputSelect } from "./VideoInputSource";
 
 export default function Settings(props: { state: AppState, dispatch: Dispatch<AppAction> }) {
     const { state, dispatch } = props;
@@ -17,6 +18,14 @@ export default function Settings(props: { state: AppState, dispatch: Dispatch<Ap
             <Checkbox label="Multi editors" checked={state.multi} action={AppActionType.SET_MULTI} />
         </Field>
         <h2>Video</h2>
+        <Field>
+            <Label text={"Face cameras"} />
+            <VideoInputSelect current={state.faceCamId} action={AppActionType.SET_FACECAM_ID} dispatch={dispatch} />
+        </Field>
+        <Field>
+            <Label text={"Hardware camera"} />
+            <VideoInputSelect current={state.hardwareCamId} action={AppActionType.SET_HARDWARECAM_ID} dispatch={dispatch} />
+        </Field>
     </Source>
 
     /*
