@@ -11,6 +11,8 @@ import MakeCodeEditor, { initMakeCode } from "./MakeCodeEditor";
 import Chat from "./Chat";
 import Paint from "./Paint";
 import { initializeIcons } from "@uifabric/icons";
+initializeIcons();
+initMakeCode();
 
 export interface AppState {
   editor: string;
@@ -117,9 +119,6 @@ async function findCamera(dispatch: Dispatch<AppAction>) {
     } as SetCameraDeviceIdAppAction);
   }
 }
-
-initializeIcons();
-initMakeCode();
 
 export default function App() {
   const [config, setConfig] = useConfig();
