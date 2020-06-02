@@ -115,7 +115,7 @@ export default function App() {
     {state.multi && <MakeCodeEditor id="editor2" editor={config.editor} multi={state.multi} />}
     <Chat mixer={config.mixer} twitch={config.twitch} />
     <VideoInputSource id="facecam" deviceId={state.faceCamId} />
-    <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />
+    {state.hardwareCamId && <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />}
     <Source id="social">
       <Toolbox state={state} dispatch={dispatch} />
       <div id="banner"></div>
