@@ -5,7 +5,7 @@ import { AppAction, AppActionType, SetCameraDeviceIdAppAction } from "./App";
 
 export async function listCameras() {
     let cams = await navigator.mediaDevices.enumerateDevices()
-    cams = cams.filter(d => d.kind == "videoinput")
+    cams = cams.filter(d => d.kind === "videoinput")
     return cams;
 }
 

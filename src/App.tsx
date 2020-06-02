@@ -14,6 +14,7 @@ export interface AppState {
   editor: string;
   mixer?: string;
   twitch?: string;
+  emojis?: string;
   scene: string;
   faceCamId?: string;
   hardwareCamId?: string;
@@ -32,7 +33,10 @@ export enum AppActionType {
   "SET_HARDWARECAM_ID",
   "SET_HARDWARECAM",
   "SET_MULTI",
-  "SET_SETTINGS"
+  "SET_SETTINGS",
+  "SET_MIXER",
+  "SET_TWITCH",
+  "SET_EMOJIS"
 }
 
 export interface AppAction {
@@ -44,13 +48,18 @@ export interface SetSceneAppAction extends AppAction {
   scene: string;
 }
 
+export interface SetTextAppAction extends AppAction {
+  type: AppActionType.SET_TWITCH | AppActionType.SET_MULTI;
+  text: string;
+}
+
 export interface SetCameraDeviceIdAppAction extends AppAction {
   type: AppActionType.SET_FACECAM_ID | AppActionType.SET_HARDWARECAM_ID;
   deviceId: string;
 }
 
 export interface SetFlagAppAction extends AppAction {
-  type: AppActionType.SET_MULTI | AppActionType.SET_HARDWARECAM | AppActionType.SET_SETTINGS;
+  type: AppActionType.SET_MULTI | AppActionType.SET_HARDWARECAM | AppActionType.SET_SETTINGS | AppActionType.SET_EMOJIS;
   on: boolean;
 }
 
@@ -104,23 +113,23 @@ export default function App() {
     const newState = cloneState(state)
     switch (action.type) {
       case AppActionType.SET_SCENE:
-        newState.scene = (action as SetSceneAppAction).scene;
-        break;
+        newState.scene = (action as SetSceneAppAction).scene; break;
       case AppActionType.SET_FACECAM_ID:
-        newState.faceCamId = (action as SetCameraDeviceIdAppAction).deviceId;
-        break;
+        newState.faceCamId = (action as SetCameraDeviceIdAppAction).deviceId; break;
       case AppActionType.SET_HARDWARECAM_ID:
-        newState.hardwareCamId = (action as SetCameraDeviceIdAppAction).deviceId;
-        break;
+        newState.hardwareCamId = (action as SetCameraDeviceIdAppAction).deviceId; break;
       case AppActionType.SET_MULTI:
-        newState.multi = !!(action as SetFlagAppAction).on;
-        break;
+        newState.multi = !!(action as SetFlagAppAction).on; break;
       case AppActionType.SET_HARDWARECAM:
-        newState.hardware = !!(action as SetFlagAppAction).on;
-        break;
+        newState.hardware = !!(action as SetFlagAppAction).on; break;
       case AppActionType.SET_SETTINGS:
-        newState.settings = !!(action as SetFlagAppAction).on;
-        break;
+        newState.settings = !!(action as SetFlagAppAction).on; break;
+      case AppActionType.SET_MIXER:
+        newState.mixer = (action as SetTextAppAction).text; break;
+      case AppActionType.SET_TWITCH:
+        newState.twitch = (action as SetTextAppAction).text; break;
+      case AppActionType.SET_EMOJIS:
+        newState.emojis = (action as SetTextAppAction).text; break;
     }
     setConfig(newState);
     return newState;

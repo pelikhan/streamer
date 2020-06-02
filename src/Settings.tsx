@@ -1,4 +1,4 @@
-import { AppState, AppAction, SetFlagAppAction, AppActionType } from "./App";
+import { AppState, AppAction, SetFlagAppAction, AppActionType, SetTextAppAction } from "./App";
 import { Dispatch, ReactNode, Fragment } from "react";
 import React from "react";
 import Source from "./Source";
@@ -26,22 +26,26 @@ export default function Settings(props: { state: AppState, dispatch: Dispatch<Ap
             <Label text={"Hardware camera"} />
             <VideoInputSelect current={state.hardwareCamId} action={AppActionType.SET_HARDWARECAM_ID} dispatch={dispatch} />
         </Field>
+        <h2>Paint</h2>
+        <Field>
+            <Label text={"Emojis (😄🤔😭👀)"} />
+            <Text placeholder="Emojis" action={AppActionType.SET_EMOJIS} current={state.emojis} />
+        </Field>
+        <h2>Streaming chats</h2>
+        <Field>
+            <Label text={"Mixer"} />
+            <Text placeholder="Mixer.com account (/account)" action={AppActionType.SET_MIXER} current={state.mixer} />
+        </Field>
+        <Field>
+            <Label text={"Twitch"} />
+            <Text placeholder="Twitch.tv account (/account)" action={AppActionType.SET_TWITCH} current={state.twitch} />
+        </Field>
     </Source>
 
     /*
             <Field>
-                <label for="facecamselect">Choose a Face Webcam</label>
-                <select id="facecamselect"></select>
-                <div class="error hidden" id="facecamerror">Connection error. Make sure the camera is not blocked and that the WebCam is not beging used by another application.</div>
-            </Field>
-            <Field>
                 <input type="checkbox" id="facerotatecameracheckbox"></input>
                 <label for="facerotatecameracheckbox">Rotate camera 180</label>
-            </Field>
-            <Field>
-                <label for="hardwarecamselect">Choose a Hardware Webcam</label>
-                <select id="hardwarecamselect"></select>
-                <div class="error hidden" id="hardwarecamerror">Connection error. Make sure the camera is not blocked and that the WebCam is not beging used by another application.</div>
             </Field>
             <Field>
                 <input type="checkbox" id="hardwarerotatecameracheckbox"></input>
@@ -52,26 +56,18 @@ export default function Settings(props: { state: AppState, dispatch: Dispatch<Ap
                 <label for="twitterinput">Twitter (optional)</label>
                 <input id="twitterinput" placeholder="Twitter handle (@account)" />
             </Field>
-            <h2>Paint</h2>
-            <Field>
-                <label for="emojisinput">Emojis (😄🤔😭👀)</label>
-                <input id="emojisinput" placeholder="Emojis" />
-            </Field>
-            <h2>Streaming chats</h2>
-            <Field>
-                <label for="mixerinput">Mixer (optional)</label>
-                <input id="mixerinput" placeholder="Mixer.com account (/account)" />
-            </Field>
-            <Field>
-                <label for="twitchinput">Twitch (optional)</label>
-                <input id="twitchinput" placeholder="Twitch.tv account (/account)" />
-            </Field>
     */
 
     function Field(props: { children: ReactNode }) {
         return <div className="field">
             {props.children}
         </div>
+    }
+
+    function Text(props: { placeholder: string; action: AppActionType.SET_EMOJIS | AppActionType.SET_MIXER | AppActionType.SET_TWITCH; current?: string; }) {
+        const { placeholder, action, current } = props;
+        const inputRef = React.useRef<HTMLInputElement>(null);
+        return <input ref={inputRef} placeholder={placeholder} onChange={() => dispatch({ type: action, text: inputRef.current?.value } as SetTextAppAction)} value={current || ""} />
     }
 
     function Label(props: { text: string }) {
