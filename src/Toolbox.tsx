@@ -9,10 +9,11 @@ export default function Toolbox(props: { state: AppState, dispatch: Dispatch<App
         return <button className={`${icon ? `ms-Icon ms-Icon--${icon}` : ''} ${active ? "active" : ""}`} title={title} onClick={handler}>{text}</button>
     }
 
-    function PaintButton(props: { icon?: string; title: string; active?: boolean; tool: string; emoji?: string; }) {
+    function PaintButton(props: { icon?: string; title: string; tool: string; emoji?: string; }) {
         return <IconButton icon={props.icon} 
-            title={props.title} active={props.active}
+            title={props.title}
             text={props.emoji}
+            active={state.paintTool === "emoji" && props.emoji ? props.emoji == state.emoji : props.tool === state.paintTool}
             handler={() => dispatch({ type: AppActionType.SET_PAINT_TOOL, tool: props.tool, emoji: props.emoji } as SetPaintToolAppAction)} />
     }
 
@@ -35,8 +36,8 @@ export default function Toolbox(props: { state: AppState, dispatch: Dispatch<App
             <PaintButton icon="ArrowTallUpLeft" title="Draw arrow" tool={"arrow"} />
             <PaintButton icon="RectangleShape" title="Draw rectangle" tool={"rect"} />
             <PaintButton icon="PenWorkspace" title="Draw freeform" tool={"pen"} />
-            <IconButton icon="WhiteBoardApp16" title="Paint screen in white" handler={() => dispatch({ type: AppActionType.SET_PAINT_COMMAND, command: "whiteboard"} as SetPaintCommandAppAction)} />
             {emojis.map(emoji => <PaintButton emoji={emoji} tool={"emoji"} title={"Stamp " + emoji} />)}
+            <IconButton icon="WhiteBoardApp16" title="Paint screen in white" handler={() => dispatch({ type: AppActionType.SET_PAINT_COMMAND, command: "whiteboard"} as SetPaintCommandAppAction)} />
             <IconButton icon="EraseTool" title="Clear all drawings" handler={() => dispatch({ type: AppActionType.SET_PAINT_COMMAND, command: "clear"} as SetPaintCommandAppAction)} />
             <IconButton icon="ChromeClose" title="Edit Paint mode" handler={() => dispatch({ type: AppActionType.SET_PAINT, on: false } as SetFlagAppAction)} />
         </div>
