@@ -35,14 +35,14 @@ export default function Paint(props: { state: AppState }) {
     }
 
     function clearPaint() {
-        console.log('clear paint')
+        // console.log('clear paint')
         paintCtx.clearRect(0, 0, paint.width, paint.height);
         painttoolCtx.clearRect(0, 0, paint.width, paint.height);
     }
 
     function updateSize() {
         const size = paint.getBoundingClientRect();
-        console.log(`paint down ${size.width} ${size.height}`)
+        // console.log(`paint down ${size.width} ${size.height}`)
         paint.width = size.width;
         paint.height = size.height;
         painttool.width = size.width;
@@ -72,7 +72,7 @@ export default function Paint(props: { state: AppState }) {
         }, false);
 
         painttool.addEventListener('mouseup', function () {
-            console.log(`paint up`)
+            // console.log(`paint up`)
             paintCtx.drawImage(painttool, 0, 0)
             painttoolCtx.clearRect(0, 0, painttool.width, painttool.height)
             painttool.removeEventListener('mousemove', onPaint, false);
