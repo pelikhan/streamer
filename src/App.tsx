@@ -7,11 +7,10 @@ import Source from './Source';
 import Toolbox from './Toolbox';
 import Settings from './Settings';
 import { useLocalStorage } from './Hooks';
-import MakeCodeEditor from './MakeCodeEditor';
+import MakeCodeEditor, { initMakeCode } from './MakeCodeEditor';
 import Chat from './Chat';
 import Paint from './Paint';
 import { initializeIcons } from '@uifabric/icons';
-initializeIcons();
 
 export interface AppState {
   editor: string;
@@ -112,6 +111,9 @@ async function findCamera(dispatch: Dispatch<AppAction>) {
     dispatch({ type: AppActionType.SET_FACECAM_ID, deviceId: cams[0].deviceId } as SetCameraDeviceIdAppAction)
   }
 }
+
+initializeIcons();
+initMakeCode();
 
 export default function App() {
   const [config, setConfig] = useConfig();
