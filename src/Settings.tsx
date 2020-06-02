@@ -5,7 +5,7 @@ import {
   AppActionType,
   SetTextAppAction,
 } from "./App";
-import { Dispatch, ReactNode, Fragment } from "react";
+import { Dispatch, ReactNode } from "react";
 import React from "react";
 import Source from "./Source";
 import { VideoInputSelect } from "./VideoInputSource";

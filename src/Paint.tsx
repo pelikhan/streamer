@@ -72,7 +72,7 @@ export default function Paint(props: { state: AppState }) {
         painttoolCtx.lineJoin = "round";
         painttoolCtx.lineCap = "round";
         painttoolCtx.strokeStyle = "#ffe135";
-        if (state.paintTool == "pen") {
+        if (state.paintTool === "pen") {
           painttoolCtx.beginPath();
           painttoolCtx.moveTo(mouse.x, mouse.y);
         }
@@ -96,7 +96,7 @@ export default function Paint(props: { state: AppState }) {
       const ctx = painttoolCtx;
       ctx.clearRect(0, 0, painttool.width, painttool.height);
       ctx.save();
-      if (state.paintTool == "arrow") {
+      if (state.paintTool === "arrow") {
         const p1 = mouse,
           p2 = head;
         const size = ctx.lineWidth * 2;
@@ -121,14 +121,14 @@ export default function Paint(props: { state: AppState }) {
         ctx.moveTo(0, 0);
         ctx.lineTo(-size, size);
         ctx.stroke();
-      } else if (state.paintTool == "rect") {
+      } else if (state.paintTool === "rect") {
         ctx.beginPath();
         ctx.rect(head.x, head.y, mouse.x - head.x, mouse.y - head.y);
         ctx.stroke();
-      } else if (state.paintTool == "pen") {
+      } else if (state.paintTool === "pen") {
         ctx.lineTo(mouse.x, mouse.y);
         ctx.stroke();
-      } else if (state.paintTool == "emoji") {
+      } else if (state.paintTool === "emoji") {
         const p1 = mouse,
           p2 = head;
         const dx = p2.x - p1.x;

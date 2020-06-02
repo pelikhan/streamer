@@ -48,7 +48,7 @@ export default function Toolbox(props: {
         text={props.emoji}
         active={
           state.paintTool === "emoji" && props.emoji
-            ? props.emoji == state.emoji
+            ? props.emoji === state.emoji
             : props.tool === state.paintTool
         }
         handler={() =>

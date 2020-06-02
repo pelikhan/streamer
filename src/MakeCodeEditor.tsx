@@ -10,7 +10,7 @@ import {
 import { Dropdown, IDropdownOption } from "@fluentui/react";
 
 function useEditorConfigs() {
-  const { data, error, isPending, run } = useFetch(
+  const { data, error, isPending } = useFetch(
     "https://makecode.com/editors.json",
     {
       headers: { accept: "application/json" },
@@ -28,7 +28,7 @@ export function SelectMakeCodeEditor(props: {
   dispatch: Dispatch<AppAction>;
 }) {
   const { editor, dispatch } = props;
-  const { editorConfigs, error, isPending } = useEditorConfigs();
+  const { editorConfigs } = useEditorConfigs();
 
   const options = [];
   if (editorConfigs)

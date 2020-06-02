@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Dispatch, useRef } from "react";
+import React, { useState, useEffect, Dispatch } from "react";
 import Source from "./Source";
 import { useAsync } from "react-async";
 import { AppAction, AppActionType, SetCameraDeviceIdAppAction } from "./App";
