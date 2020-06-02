@@ -1,16 +1,16 @@
-import React, { useReducer, useEffect, Dispatch } from 'react';
-import './index.css'
-import './theme.css'
-import Scene from './Scene';
-import VideoInputSource, { listCameras } from './VideoInputSource';
-import Source from './Source';
-import Toolbox from './Toolbox';
-import Settings from './Settings';
-import { useLocalStorage } from './Hooks';
-import MakeCodeEditor, { initMakeCode } from './MakeCodeEditor';
-import Chat from './Chat';
-import Paint from './Paint';
-import { initializeIcons } from '@uifabric/icons';
+import React, { useReducer, useEffect, Dispatch } from "react";
+import "./index.css";
+import "./theme.css";
+import Scene from "./Scene";
+import VideoInputSource, { listCameras } from "./VideoInputSource";
+import Source from "./Source";
+import Toolbox from "./Toolbox";
+import Settings from "./Settings";
+import { useLocalStorage } from "./Hooks";
+import MakeCodeEditor, { initMakeCode } from "./MakeCodeEditor";
+import Chat from "./Chat";
+import Paint from "./Paint";
+import { initializeIcons } from "@uifabric/icons";
 
 export interface AppState {
   editor: string;
@@ -47,7 +47,7 @@ export enum AppActionType {
   "SET_EDITOR",
   "SET_CHAT",
   "SET_PAINT",
-  "SET_PAINT_TOOL"
+  "SET_PAINT_TOOL",
 }
 
 export interface AppAction {
@@ -75,10 +75,13 @@ export interface SetCameraDeviceIdAppAction extends AppAction {
 }
 
 export interface SetFlagAppAction extends AppAction {
-  type: AppActionType.SET_MULTI | AppActionType.SET_HARDWARECAM | AppActionType.SET_SETTINGS
-  | AppActionType.SET_EMOJIS
-  | AppActionType.SET_CHAT
-  | AppActionType.SET_PAINT
+  type:
+    | AppActionType.SET_MULTI
+    | AppActionType.SET_HARDWARECAM
+    | AppActionType.SET_SETTINGS
+    | AppActionType.SET_EMOJIS
+    | AppActionType.SET_CHAT
+    | AppActionType.SET_PAINT;
   on: boolean;
 }
 
@@ -101,14 +104,17 @@ function useConfig(): [AppState, (cfg: AppState) => void] {
   return useLocalStorage("streamer.config", {
     editor: "microbit",
     scene: "left",
-  })
+  });
 }
 
 async function findCamera(dispatch: Dispatch<AppAction>) {
-  console.log("looking for web cam")
+  console.log("looking for web cam");
   const cams = await listCameras();
   if (cams && cams[0] && cams[0].deviceId) {
-    dispatch({ type: AppActionType.SET_FACECAM_ID, deviceId: cams[0].deviceId } as SetCameraDeviceIdAppAction)
+    dispatch({
+      type: AppActionType.SET_FACECAM_ID,
+      deviceId: cams[0].deviceId,
+    } as SetCameraDeviceIdAppAction);
   }
 }
 
@@ -117,54 +123,75 @@ initMakeCode();
 
 export default function App() {
   const [config, setConfig] = useConfig();
-  const [state, dispatch] = useReducer(reducer, config)
+  const [state, dispatch] = useReducer(reducer, config);
 
   useEffect(() => {
-    if (!state.faceCamId)
-      findCamera(dispatch);
-  })
+    if (!state.faceCamId) findCamera(dispatch);
+  });
 
-  return <Scene state={state}>
-    <MakeCodeEditor id="editor" editor={config.editor} multi={state.multi} />
-    {state.multi && <MakeCodeEditor id="editor2" editor={config.editor} multi={state.multi} />}
-    <Chat mixer={config.mixer} twitch={config.twitch} />
-    <VideoInputSource id="facecam" deviceId={state.faceCamId} />
-    {state.hardwareCamId && <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />}
-    {state.paint && <Paint state={state} />}
-    <Source id="social">
-      <Toolbox state={state} dispatch={dispatch} />
-      <div id="banner"></div>
-    </Source>
-    {state.settings && <Settings state={state} dispatch={dispatch} />}
-  </Scene>
+  return (
+    <Scene state={state}>
+      <MakeCodeEditor id="editor" editor={config.editor} multi={state.multi} />
+      {state.multi && (
+        <MakeCodeEditor
+          id="editor2"
+          editor={config.editor}
+          multi={state.multi}
+        />
+      )}
+      <Chat mixer={config.mixer} twitch={config.twitch} />
+      <VideoInputSource id="facecam" deviceId={state.faceCamId} />
+      {state.hardwareCamId && (
+        <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />
+      )}
+      {state.paint && <Paint state={state} />}
+      <Source id="social">
+        <Toolbox state={state} dispatch={dispatch} />
+        <div id="banner"></div>
+      </Source>
+      {state.settings && <Settings state={state} dispatch={dispatch} />}
+    </Scene>
+  );
 
   function reducer(state: AppState, action: AppAction) {
-    const newState = cloneState(state)
+    const newState = cloneState(state);
     switch (action.type) {
       case AppActionType.SET_EDITOR:
-        newState.editor = (action as SetEditorAppAction).editor; break;
+        newState.editor = (action as SetEditorAppAction).editor;
+        break;
       case AppActionType.SET_SCENE:
-        newState.scene = (action as SetSceneAppAction).scene; break;
+        newState.scene = (action as SetSceneAppAction).scene;
+        break;
       case AppActionType.SET_FACECAM_ID:
-        newState.faceCamId = (action as SetCameraDeviceIdAppAction).deviceId; break;
+        newState.faceCamId = (action as SetCameraDeviceIdAppAction).deviceId;
+        break;
       case AppActionType.SET_HARDWARECAM_ID:
-        newState.hardwareCamId = (action as SetCameraDeviceIdAppAction).deviceId; break;
+        newState.hardwareCamId = (action as SetCameraDeviceIdAppAction).deviceId;
+        break;
       case AppActionType.SET_MULTI:
-        newState.multi = !!(action as SetFlagAppAction).on; break;
+        newState.multi = !!(action as SetFlagAppAction).on;
+        break;
       case AppActionType.SET_HARDWARECAM:
-        newState.hardware = !!(action as SetFlagAppAction).on; break;
+        newState.hardware = !!(action as SetFlagAppAction).on;
+        break;
       case AppActionType.SET_SETTINGS:
-        newState.settings = !!(action as SetFlagAppAction).on; break;
+        newState.settings = !!(action as SetFlagAppAction).on;
+        break;
       case AppActionType.SET_MIXER:
-        newState.mixer = (action as SetTextAppAction).text; break;
+        newState.mixer = (action as SetTextAppAction).text;
+        break;
       case AppActionType.SET_TWITCH:
-        newState.twitch = (action as SetTextAppAction).text; break;
+        newState.twitch = (action as SetTextAppAction).text;
+        break;
       case AppActionType.SET_EMOJIS:
-        newState.emojis = (action as SetTextAppAction).text; break;
+        newState.emojis = (action as SetTextAppAction).text;
+        break;
       case AppActionType.SET_CHAT:
-        newState.chat = (action as SetFlagAppAction).on; break;
+        newState.chat = (action as SetFlagAppAction).on;
+        break;
       case AppActionType.SET_PAINT:
-        newState.paint = (action as SetFlagAppAction).on; break;
+        newState.paint = (action as SetFlagAppAction).on;
+        break;
       case AppActionType.SET_PAINT_TOOL:
         const tool = action as SetPaintToolAppAction;
         newState.paintTool = tool.tool;
@@ -174,7 +201,6 @@ export default function App() {
     setConfig(newState);
     return newState;
   }
-
 
   function cloneState(state: AppState): AppState {
     return JSON.parse(JSON.stringify(state));

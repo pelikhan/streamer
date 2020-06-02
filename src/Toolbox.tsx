@@ -1,59 +1,172 @@
-import React, { Dispatch } from "react"
-import { AppAction, AppActionType, SetSceneAppAction, AppState, SetFlagAppAction, SetPaintToolAppAction } from "./App"
+import React, { Dispatch } from "react";
+import {
+  AppAction,
+  AppActionType,
+  SetSceneAppAction,
+  AppState,
+  SetFlagAppAction,
+  SetPaintToolAppAction,
+} from "./App";
 import { FontIcon, Button } from "@fluentui/react";
 
-export default function Toolbox(props: { state: AppState, dispatch: Dispatch<AppAction> }) {
-    const { state, dispatch } = props;
+export default function Toolbox(props: {
+  state: AppState;
+  dispatch: Dispatch<AppAction>;
+}) {
+  const { state, dispatch } = props;
 
-    function IconButton(props: { icon?: string; text?: string; title: string; active?: boolean; handler: () => void }) {
-        const { icon, title, active, handler, text } = props;
-        return <button className={`${active ? "active" : ""}`} title={title} onClick={handler}>
-            {!!icon && <FontIcon iconName={icon} />}
-            {text || ""}
-        </button>
-    }
+  function IconButton(props: {
+    icon?: string;
+    text?: string;
+    title: string;
+    active?: boolean;
+    handler: () => void;
+  }) {
+    const { icon, title, active, handler, text } = props;
+    return (
+      <button
+        className={`${active ? "active" : ""}`}
+        title={title}
+        onClick={handler}
+      >
+        {!!icon && <FontIcon iconName={icon} />}
+        {text || ""}
+      </button>
+    );
+  }
 
-    function PaintButton(props: { icon?: string; title: string; tool: string; emoji?: string; }) {
-        return <IconButton icon={props.icon}
-            title={props.title}
-            text={props.emoji}
-            active={state.paintTool === "emoji" && props.emoji ? props.emoji == state.emoji : props.tool === state.paintTool}
-            handler={() => dispatch({ type: AppActionType.SET_PAINT_TOOL, tool: props.tool, emoji: props.emoji } as SetPaintToolAppAction)} />
-    }
+  function PaintButton(props: {
+    icon?: string;
+    title: string;
+    tool: string;
+    emoji?: string;
+  }) {
+    return (
+      <IconButton
+        icon={props.icon}
+        title={props.title}
+        text={props.emoji}
+        active={
+          state.paintTool === "emoji" && props.emoji
+            ? props.emoji == state.emoji
+            : props.tool === state.paintTool
+        }
+        handler={() =>
+          dispatch({
+            type: AppActionType.SET_PAINT_TOOL,
+            tool: props.tool,
+            emoji: props.emoji,
+          } as SetPaintToolAppAction)
+        }
+      />
+    );
+  }
 
-    function SceneButton(props: { icon: string; title: string; scene: string }) {
-        const { icon, title, scene } = props;
-        return <IconButton
-            icon={icon}
-            title={title}
-            active={state.scene === scene}
-            handler={() => dispatch({ type: AppActionType.SET_SCENE, scene } as SetSceneAppAction)}
+  function SceneButton(props: { icon: string; title: string; scene: string }) {
+    const { icon, title, scene } = props;
+    return (
+      <IconButton
+        icon={icon}
+        title={title}
+        active={state.scene === scene}
+        handler={() =>
+          dispatch({
+            type: AppActionType.SET_SCENE,
+            scene,
+          } as SetSceneAppAction)
+        }
+      />
+    );
+  }
+
+  if (state.paint) {
+    const emojis = [];
+    if (state.emojis)
+      for (let i = 0; i < state.emojis.length; i += 2)
+        emojis[i >> 1] = state.emojis.substr(i, 2);
+    return (
+      <div id="toolbox">
+        <PaintButton icon="ArrowTallUpLeft" title="Draw arrow" tool={"arrow"} />
+        <PaintButton
+          icon="RectangleShape"
+          title="Draw rectangle"
+          tool={"rect"}
         />
-    }
+        <PaintButton icon="PenWorkspace" title="Draw freeform" tool={"pen"} />
+        {emojis.map((emoji) => (
+          <PaintButton emoji={emoji} tool={"emoji"} title={"Stamp " + emoji} />
+        ))}
+        <IconButton
+          icon="ChromeClose"
+          title="Edit Paint mode"
+          handler={() =>
+            dispatch({
+              type: AppActionType.SET_PAINT,
+              on: false,
+            } as SetFlagAppAction)
+          }
+        />
+      </div>
+    );
+  }
 
-    if (state.paint) {
-        const emojis = [];
-        if (state.emojis)
-            for (let i = 0; i < state.emojis.length; i += 2)
-                emojis[i >> 1] = state.emojis.substr(i, 2);
-        return <div id="toolbox">
-            <PaintButton icon="ArrowTallUpLeft" title="Draw arrow" tool={"arrow"} />
-            <PaintButton icon="RectangleShape" title="Draw rectangle" tool={"rect"} />
-            <PaintButton icon="PenWorkspace" title="Draw freeform" tool={"pen"} />
-            {emojis.map(emoji => <PaintButton emoji={emoji} tool={"emoji"} title={"Stamp " + emoji} />)}
-            <IconButton icon="ChromeClose" title="Edit Paint mode" handler={() => dispatch({ type: AppActionType.SET_PAINT, on: false } as SetFlagAppAction)} />
-        </div>
-    }
-
-    return <div id="toolbox">
-        <SceneButton icon="OpenPane" title="move webcam left" scene={"left"} />
-        <SceneButton icon="OpenPaneMirrored" title="move webcam right" scene={"right"} />
-        <SceneButton icon="Contact" title="webcam large" scene={"chat"} />
-        {state.hardwareCamId && <IconButton icon="Robot" title="hardware webcam" handler={() => dispatch({ type: AppActionType.SET_HARDWARECAM, on: !state.hardware } as SetFlagAppAction)} active={state.hardware} />}
-        {(state.mixer || state.twitch) && <IconButton icon="OfficeChat" title="show/hide chat" handler={() => dispatch({ type: AppActionType.SET_CHAT, on: !state.chat } as SetFlagAppAction)} active={state.chat} />}
-        <IconButton icon="PenWorkspace" title="Paint mode" handler={() => dispatch({ type: AppActionType.SET_PAINT, on: true } as SetFlagAppAction)} />
-        <IconButton icon="Settings" title="show settings" handler={() => dispatch({ type: AppActionType.SET_SETTINGS, on: true } as SetFlagAppAction)} />
-    </div>;
+  return (
+    <div id="toolbox">
+      <SceneButton icon="OpenPane" title="move webcam left" scene={"left"} />
+      <SceneButton
+        icon="OpenPaneMirrored"
+        title="move webcam right"
+        scene={"right"}
+      />
+      <SceneButton icon="Contact" title="webcam large" scene={"chat"} />
+      {state.hardwareCamId && (
+        <IconButton
+          icon="Robot"
+          title="hardware webcam"
+          handler={() =>
+            dispatch({
+              type: AppActionType.SET_HARDWARECAM,
+              on: !state.hardware,
+            } as SetFlagAppAction)
+          }
+          active={state.hardware}
+        />
+      )}
+      {(state.mixer || state.twitch) && (
+        <IconButton
+          icon="OfficeChat"
+          title="show/hide chat"
+          handler={() =>
+            dispatch({
+              type: AppActionType.SET_CHAT,
+              on: !state.chat,
+            } as SetFlagAppAction)
+          }
+          active={state.chat}
+        />
+      )}
+      <IconButton
+        icon="PenWorkspace"
+        title="Paint mode"
+        handler={() =>
+          dispatch({
+            type: AppActionType.SET_PAINT,
+            on: true,
+          } as SetFlagAppAction)
+        }
+      />
+      <IconButton
+        icon="Settings"
+        title="show settings"
+        handler={() =>
+          dispatch({
+            type: AppActionType.SET_SETTINGS,
+            on: true,
+          } as SetFlagAppAction)
+        }
+      />
+    </div>
+  );
 }
 
 /*
