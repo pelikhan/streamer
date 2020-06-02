@@ -1,6 +1,4 @@
 import React, { useReducer, useEffect, Dispatch } from "react";
-import "./index.css";
-import "./theme.css";
 import Scene from "./Scene";
 import VideoInputSource, { listCameras } from "./VideoInputSource";
 import Source from "./Source";
