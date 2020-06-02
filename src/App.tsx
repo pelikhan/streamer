@@ -46,8 +46,7 @@ export enum AppActionType {
   "SET_EDITOR",
   "SET_CHAT",
   "SET_PAINT",
-  "SET_PAINT_TOOL",
-  "SET_PAINT_COMMAND"
+  "SET_PAINT_TOOL"
 }
 
 export interface AppAction {
@@ -86,11 +85,6 @@ export interface SetPaintToolAppAction extends AppAction {
   type: AppActionType.SET_PAINT_TOOL;
   tool: string;
   emoji?: string;
-}
-
-export interface SetPaintCommandAppAction extends AppAction {
-  type: AppActionType.SET_PAINT_COMMAND;
-  command: string;
 }
 
 /*
@@ -171,8 +165,6 @@ export default function App() {
         const tool = action as SetPaintToolAppAction;
         newState.paintTool = tool.tool;
         if (tool.emoji) newState.emoji = tool.emoji;
-        break;
-      case AppActionType.SET_PAINT_COMMAND:
         break;
     }
     setConfig(newState);

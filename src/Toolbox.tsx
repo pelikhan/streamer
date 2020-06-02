@@ -1,5 +1,5 @@
 import React, { Dispatch } from "react"
-import { AppAction, AppActionType, SetSceneAppAction, AppState, SetFlagAppAction, SetPaintToolAppAction, SetPaintCommandAppAction } from "./App"
+import { AppAction, AppActionType, SetSceneAppAction, AppState, SetFlagAppAction, SetPaintToolAppAction } from "./App"
 
 export default function Toolbox(props: { state: AppState, dispatch: Dispatch<AppAction> }) {
     const { state, dispatch } = props;
@@ -37,8 +37,6 @@ export default function Toolbox(props: { state: AppState, dispatch: Dispatch<App
             <PaintButton icon="RectangleShape" title="Draw rectangle" tool={"rect"} />
             <PaintButton icon="PenWorkspace" title="Draw freeform" tool={"pen"} />
             {emojis.map(emoji => <PaintButton emoji={emoji} tool={"emoji"} title={"Stamp " + emoji} />)}
-            <IconButton icon="WhiteBoardApp16" title="Paint screen in white" handler={() => dispatch({ type: AppActionType.SET_PAINT_COMMAND, command: "whiteboard"} as SetPaintCommandAppAction)} />
-            <IconButton icon="EraseTool" title="Clear all drawings" handler={() => dispatch({ type: AppActionType.SET_PAINT_COMMAND, command: "clear"} as SetPaintCommandAppAction)} />
             <IconButton icon="ChromeClose" title="Edit Paint mode" handler={() => dispatch({ type: AppActionType.SET_PAINT, on: false } as SetFlagAppAction)} />
         </div>
     }
