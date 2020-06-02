@@ -60,7 +60,7 @@ export default function MakeCodeEditor(props: {
   multi?: boolean;
 }) {
   const { editor, id, multi } = props;
-  const { editorConfigs, error, isPending } = useEditorConfigs();
+  const { editorConfigs, isPending } = useEditorConfigs();
   if (!editorConfigs || isPending) return null;
 
   const editorConfig = editorConfigs[editor];

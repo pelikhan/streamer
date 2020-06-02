@@ -82,7 +82,6 @@ export default function VideoInputSource(props: {
   rotate?: boolean;
 }) {
   const { id, deviceId, rotate } = props;
-  const [error, setError] = useState(false);
   const [videoDeviceId, setVideoDeviceId] = useState<string | undefined>("");
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
@@ -92,12 +91,10 @@ export default function VideoInputSource(props: {
     if (video.srcObject && videoDeviceId === deviceId) return;
     startStream(video, deviceId)
       .then(() => {
-        setError(false);
         setVideoDeviceId(deviceId);
       })
       .catch((e) => {
         console.log(`error: ${e.message}`);
-        setError(true);
         stopStream(video);
       });
   });
