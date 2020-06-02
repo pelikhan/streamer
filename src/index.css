@@ -264,6 +264,10 @@ Your use of the content in the files referenced here is subject to the terms of 
       text-align: center;
       cursor: pointer;
   }
+  video {
+      position: relative;
+      width: 100%;
+  }
   video.error {
       background: rgba(255, 0, 0, 0.5)
   }

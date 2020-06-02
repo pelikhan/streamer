@@ -2,6 +2,7 @@ import React, { useState, useEffect, Dispatch, useRef } from "react";
 import Source from "./Source";
 import { useAsync } from "react-async"
 import { AppAction, AppActionType, SetCameraDeviceIdAppAction } from "./App";
+import { Dropdown, IDropdownOption } from "@fluentui/react";
 
 export async function listCameras() {
     let cams = await navigator.mediaDevices.enumerateDevices()
@@ -39,19 +40,24 @@ async function startStream(el: HTMLVideoElement, deviceId?: string) {
     }
 }
 
-export function VideoInputSelect(props: { current?: string; action: AppActionType.SET_FACECAM_ID | AppActionType.SET_HARDWARECAM_ID, dispatch: Dispatch<AppAction>}) {
+export function VideoInputSelect(props: { current?: string; action: AppActionType.SET_FACECAM_ID | AppActionType.SET_HARDWARECAM_ID, dispatch: Dispatch<AppAction> }) {
     const { current, action, dispatch } = props;
     const { data, isPending } = useAsync({ promiseFn: listCameras })
-    const selectRef = useRef<HTMLSelectElement>(null);
-    return <select ref={selectRef} className={isPending ? "loading" : ""} onChange={onChange}>
-        <option value="">Off</option>
-        {(data || []).map(cam => <option selected={!!current && current === cam.deviceId} value={cam.deviceId}>{cam.label || `camera ${cam.deviceId}`}</option>)}
-    </select>
 
-    function onChange() {
-        const selected = selectRef.current?.options[selectRef.current.selectedIndex];        
-        dispatch({ type: action, deviceId: selected?.value} as SetCameraDeviceIdAppAction)
+    const options = [
+        { key: "", text: "Off" }
+    ];
+    if (data)
+        data.forEach(cam => options.push({ key: cam.deviceId, text: cam.label || `camera ${cam.deviceId}` }))
+
+    const onChange = (event: React.FormEvent<HTMLDivElement>, item?: IDropdownOption): void => {
+        dispatch({ type: action, deviceId: item?.key } as SetCameraDeviceIdAppAction)
     }
+
+    return <Dropdown className={isPending ? "loading" : ""}
+        options={options} onChange={onChange}
+        selectedKey={current} />
+
 }
 
 export default function VideoInputSource(props: { id: string; deviceId?: string; rotate?: boolean; }) {
@@ -62,6 +68,7 @@ export default function VideoInputSource(props: { id: string; deviceId?: string;
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
+        if (video.srcObject) return;
         startStream(video, deviceId)
             .then(() => setError(false))
             .catch(e => {

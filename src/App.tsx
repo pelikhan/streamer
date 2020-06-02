@@ -24,6 +24,7 @@ export interface AppState {
 }
 
 export interface EditorConfig {
+  name: string;
   url: string;
 }
 
@@ -36,11 +37,17 @@ export enum AppActionType {
   "SET_SETTINGS",
   "SET_MIXER",
   "SET_TWITCH",
-  "SET_EMOJIS"
+  "SET_EMOJIS",
+  "SET_EDITOR"
 }
 
 export interface AppAction {
   type: AppActionType;
+}
+
+export interface SetEditorAppAction extends AppAction {
+  type: AppActionType.SET_EDITOR;
+  editor: string;
 }
 
 export interface SetSceneAppAction extends AppAction {
@@ -112,6 +119,8 @@ export default function App() {
   function reducer(state: AppState, action: AppAction) {
     const newState = cloneState(state)
     switch (action.type) {
+      case AppActionType.SET_EDITOR:
+        newState.editor = (action as SetEditorAppAction).editor; break;
       case AppActionType.SET_SCENE:
         newState.scene = (action as SetSceneAppAction).scene; break;
       case AppActionType.SET_FACECAM_ID:
