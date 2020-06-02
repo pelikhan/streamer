@@ -30,7 +30,7 @@ const postcssNormalize = require('postcss-normalize');
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
-const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+const shouldUseSourceMap = fasle;// process.env.GENERATE_SOURCEMAP !== 'false';
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
@@ -237,6 +237,7 @@ module.exports = function(webpackEnv) {
           },
           sourceMap: shouldUseSourceMap,
         }),
+        /*
         // This is only used in production mode
         new OptimizeCSSAssetsPlugin({
           cssProcessorOptions: {
@@ -255,7 +256,7 @@ module.exports = function(webpackEnv) {
           cssProcessorPluginOptions: {
             preset: ['default', { minifyFontValues: { removeQuotes: false } }],
           },
-        }),
+        }),*/
       ],
       // Automatically split vendor and commons
       // https://twitter.com/wSokra/status/969633336732905474
