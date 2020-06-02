@@ -10,6 +10,8 @@ import { useLocalStorage } from './Hooks';
 import MakeCodeEditor from './MakeCodeEditor';
 import Chat from './Chat';
 import Paint from './Paint';
+import { initializeIcons } from '@uifabric/icons';
+initializeIcons();
 
 export interface AppState {
   editor: string;

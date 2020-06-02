@@ -1,16 +1,20 @@
 import React, { Dispatch } from "react"
 import { AppAction, AppActionType, SetSceneAppAction, AppState, SetFlagAppAction, SetPaintToolAppAction } from "./App"
+import { FontIcon, Button } from "@fluentui/react";
 
 export default function Toolbox(props: { state: AppState, dispatch: Dispatch<AppAction> }) {
     const { state, dispatch } = props;
 
     function IconButton(props: { icon?: string; text?: string; title: string; active?: boolean; handler: () => void }) {
         const { icon, title, active, handler, text } = props;
-        return <button className={`${icon ? `ms-Icon ms-Icon--${icon}` : ''} ${active ? "active" : ""}`} title={title} onClick={handler}>{text}</button>
+        return <button className={`${active ? "active" : ""}`} title={title} onClick={handler}>
+            {!!icon && <FontIcon iconName={icon} />}
+            {text || ""}
+        </button>
     }
 
     function PaintButton(props: { icon?: string; title: string; tool: string; emoji?: string; }) {
-        return <IconButton icon={props.icon} 
+        return <IconButton icon={props.icon}
             title={props.title}
             text={props.emoji}
             active={state.paintTool === "emoji" && props.emoji ? props.emoji == state.emoji : props.tool === state.paintTool}
