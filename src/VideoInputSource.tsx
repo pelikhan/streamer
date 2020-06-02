@@ -63,14 +63,18 @@ export function VideoInputSelect(props: { current?: string; action: AppActionTyp
 export default function VideoInputSource(props: { id: string; deviceId?: string; rotate?: boolean; }) {
     const { id, deviceId, rotate } = props;
     const [error, setError] = useState(false);
+    const [videoDeviceId, setVideoDeviceId] = useState<string | undefined>("");
     const videoRef = React.useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
-        if (video.srcObject) return;
+        if (video.srcObject && videoDeviceId === deviceId) return;
         startStream(video, deviceId)
-            .then(() => setError(false))
+            .then(() => {
+                setError(false)
+                setVideoDeviceId(deviceId)
+            })
             .catch(e => {
                 console.log(`error: ${e.message}`)
                 setError(true)

@@ -9,6 +9,7 @@ import Settings from './Settings';
 import { useLocalStorage } from './Hooks';
 import MakeCodeEditor from './MakeCodeEditor';
 import Chat from './Chat';
+import Paint from './Paint';
 
 export interface AppState {
   editor: string;
@@ -22,6 +23,9 @@ export interface AppState {
   hardware?: boolean;
   settings?: boolean;
   chat?: boolean;
+  paint?: boolean;
+  paintTool?: string;
+  emoji?: string;
 }
 
 export interface EditorConfig {
@@ -40,7 +44,10 @@ export enum AppActionType {
   "SET_TWITCH",
   "SET_EMOJIS",
   "SET_EDITOR",
-  "SET_CHAT"
+  "SET_CHAT",
+  "SET_PAINT",
+  "SET_PAINT_TOOL",
+  "SET_PAINT_COMMAND"
 }
 
 export interface AppAction {
@@ -70,8 +77,20 @@ export interface SetCameraDeviceIdAppAction extends AppAction {
 export interface SetFlagAppAction extends AppAction {
   type: AppActionType.SET_MULTI | AppActionType.SET_HARDWARECAM | AppActionType.SET_SETTINGS
   | AppActionType.SET_EMOJIS
-  | AppActionType.SET_CHAT;
+  | AppActionType.SET_CHAT
+  | AppActionType.SET_PAINT
   on: boolean;
+}
+
+export interface SetPaintToolAppAction extends AppAction {
+  type: AppActionType.SET_PAINT_TOOL;
+  tool: string;
+  emoji?: string;
+}
+
+export interface SetPaintCommandAppAction extends AppAction {
+  type: AppActionType.SET_PAINT_COMMAND;
+  command: string;
 }
 
 /*
@@ -113,6 +132,7 @@ export default function App() {
     <Chat mixer={config.mixer} twitch={config.twitch} />
     <VideoInputSource id="facecam" deviceId={state.faceCamId} />
     {state.hardwareCamId && <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />}
+    {state.paint && <Paint state={state} />}
     <Source id="social">
       <Toolbox state={state} dispatch={dispatch} />
       <div id="banner"></div>
@@ -145,6 +165,15 @@ export default function App() {
         newState.emojis = (action as SetTextAppAction).text; break;
       case AppActionType.SET_CHAT:
         newState.chat = (action as SetFlagAppAction).on; break;
+      case AppActionType.SET_PAINT:
+        newState.paint = (action as SetFlagAppAction).on; break;
+      case AppActionType.SET_PAINT_TOOL:
+        const tool = action as SetPaintToolAppAction;
+        newState.paintTool = tool.tool;
+        if (tool.emoji) newState.emoji = tool.emoji;
+        break;
+      case AppActionType.SET_PAINT_COMMAND:
+        break;
     }
     setConfig(newState);
     return newState;
