@@ -8,6 +8,8 @@ import Source from './Source';
 import Toolbox from './Toolbox';
 import Settings from './Settings';
 import { useFetch, useLocalStorage } from './Hooks';
+import MakeCodeEditor from './MakeCodeEditor';
+import Chat from './Chat';
 
 export interface AppState {
   scene: string;
@@ -105,21 +107,15 @@ function useConfig(): [AppConfig, (cfg: AppConfig) => void] {
 }
 
 export default function App() {
-  const [editorsLoading, editors] = useFetch("https://makecode.com/editors.json")
   const [state, dispatch] = useReducer(reducer, initialState)
   const [config] = useConfig()
 
-  if (editorsLoading)
-    return <div className="loading" />
-
-  const editorConfig: EditorConfig = editors[config.editor];
-
   return <Scene className={state.scene}>
-    <BrowserSource id="editor" url={editorConfig.url} />
-    {state.multi && <BrowserSource id="editor2" />}
-    {(config.mixer || config.twitch) && <BrowserSource id="chat" sandbox={true} />}
+    <MakeCodeEditor id="editor" editor={config.editor} multi={state.multi} />
+    {state.multi && <MakeCodeEditor id="editor2" editor={config.editor} multi={state.multi} />}
+    <Chat mixer={config.mixer} twitch={config.twitch} />
     <VideoInputSource id="facecam" deviceId={state.faceCamId} />
-    {state.hardware && <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />}
+    <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />
     <Source id="social">
       <Toolbox state={state} dispatch={dispatch} />
       <div id="banner"></div>
