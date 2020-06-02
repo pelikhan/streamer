@@ -1,8 +1,8 @@
-import React from "react";
+import React, { ReactNode } from "react";
 
 export interface SceneProps {
     className: string;
-    children?: JSX.Element | JSX.Element[]
+    children?: ReactNode;
 }
 
 export default function Scene(props: SceneProps) {

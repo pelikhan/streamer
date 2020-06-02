@@ -6,6 +6,7 @@ import BrowserSource from './BrowserSource';
 import VideoInputSource from './VideoInputSource';
 import Source from './Source';
 import Toolbox from './Toolbox';
+import Settings from './Settings';
 
 export interface AppState {
   scene: string;
@@ -13,6 +14,7 @@ export interface AppState {
   hardwareCamId?: string;
   multi?: boolean;
   hardware?: boolean;
+  settings?: boolean;
 }
 
 export enum AppActionType {
@@ -20,7 +22,8 @@ export enum AppActionType {
   "SET_FACECAM_ID",
   "SET_HARDWARECAM_ID",
   "SET_HARDWARECAM",
-  "SET_MULTI"
+  "SET_MULTI",
+  "SET_SETTINGS"
 }
 
 export interface AppAction {
@@ -38,7 +41,7 @@ export interface SetCameraDeviceIdAppAction extends AppAction {
 }
 
 export interface SetFlagAppAction extends AppAction {
-  type: AppActionType.SET_MULTI | AppActionType.SET_HARDWARECAM;
+  type: AppActionType.SET_MULTI | AppActionType.SET_HARDWARECAM | AppActionType.SET_SETTINGS;
   on: boolean;
 }
 
@@ -77,23 +80,26 @@ function reducer(state: AppState, action: AppAction) {
     case AppActionType.SET_HARDWARECAM:
       newState.hardware = !!(action as SetFlagAppAction).on;
       break;
+    case AppActionType.SET_SETTINGS:
+      newState.settings = !!(action as SetFlagAppAction).on;
+      break;
   }
   return newState;
 }
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  const editor2Hidden = !state.multi;
 
   return <Scene className={state.scene}>
     <BrowserSource id="editor" />
-    <BrowserSource id="editor2" hidden={editor2Hidden} />
+    {state.multi && <BrowserSource id="editor2" />}
     <BrowserSource id="chat" sandbox={true} />
     <VideoInputSource id="facecam" deviceId={state.faceCamId} />
-    <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />
+    {state.hardware && <VideoInputSource id="hardwarecam" deviceId={state.hardwareCamId} />}
     <Source id="social">
       <Toolbox state={state} dispatch={dispatch} />
       <div id="banner"></div>
     </Source>
+    {state.settings && <Settings state={state} dispatch={dispatch} />}
   </Scene>
 }

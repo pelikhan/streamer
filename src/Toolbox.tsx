@@ -24,6 +24,7 @@ export default function Toolbox(props: { state: AppState, dispatch: Dispatch<App
         <SceneButton icon="OpenPaneMirrored" title="move webcam right" scene={"right"} />
         <SceneButton icon="Contact" title="webcam large" scene={"chat"} />
         {state.hardware && <IconButton icon="Robot" title="hardware webcam" handler={() => dispatch({ type: AppActionType.SET_HARDWARECAM, on: !state.hardware } as SetFlagAppAction)} />}
+        <IconButton icon="Settings" title="show settings" handler={() => dispatch({ type: AppActionType.SET_SETTINGS, on: true } as SetFlagAppAction)} />
     </div>;
 }
 

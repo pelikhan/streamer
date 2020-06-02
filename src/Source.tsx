@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 
 export interface SourceProps {
     id: string;
     hidden?: boolean;
-    children?: JSX.Element | JSX.Element[];
+    children?: ReactNode;
 }
 
 export default function Source(props: SourceProps) {
